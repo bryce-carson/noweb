@@ -30,6 +30,14 @@ SRCS=columns.h errors.h getline.h markup.h match.h modtrees.h \
 	markup.ps
 
 NOTANGLE=notangle
+.PHONY: notangle noweave
+notangle:
+	@echo "'notangle' is a script wrapper, not a binary build target."
+	@echo "Use 'make nt' or 'make all' to build its C backend."
+
+noweave:
+	@echo "'noweave' is a script wrapper, not a binary build target."
+
 CPIF=>
 
 .SUFFIXES: .nw .tex .dvi .h
@@ -45,7 +53,7 @@ all: nt markup mnt finduses nwmktemp
 nt: $(TANGLEOBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(TANGLEOBJS)
 
-markup: $(MARKUPOBJS)
+markup: $(MARKUPOBJS) | /usr/local/bin/notangle
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(MARKUPOBJS)
 
 mnt: $(MNTOBJS)
