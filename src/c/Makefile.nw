@@ -84,7 +84,7 @@ all: nt markup mnt finduses nwmktemp
 nt: $(TANGLEOBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(TANGLEOBJS)
 
-markup: $(MARKUPOBJS) | /usr/local/bin/notangle
+markup: $(MARKUPOBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(MARKUPOBJS)
 
 mnt: $(MNTOBJS)
