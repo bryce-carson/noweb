@@ -4,7 +4,7 @@
 \subsection{Tangling a single file}
 A cheap imitation of tangle.
 The idea is a very cheap implementation of tangle.
-The markup of the file is described in file markup.ow.
+The markup of the file is described in file markup.nw.
 @
 The structure of the program is as follows: first we accumulate all of
 the module definitions, then we write out the definition of the

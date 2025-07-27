@@ -30,8 +30,6 @@ SRCS=columns.h errors.h getline.h markup.h match.h modtrees.h \
 	markup.ps
 
 NOTANGLE=notangle
-# set this for CPIF and then distribute tools with bad timestamps...
-#CPIF=| cpif
 CPIF=>
 
 .SUFFIXES: .nw .tex .dvi .h
@@ -94,7 +92,6 @@ markup.ps: markmain.nw
 
 gitversion.c: ../gitversion $(wildcard ../../.git/refs/heads/master)
 	echo 'const char gitversion[] = "'"$$(../gitversion -prefix)"'";' > $@
-
 
 columns.o:      columns.h
 errors.o:       errors.h
