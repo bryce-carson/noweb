@@ -11,7 +11,7 @@ for i do
     *) echo "This can't happen -- $i passed to totex" 1>&2 ; exit 1 ;;
   esac
 done
-nawk 'BEGIN              { code=0 ; quoting=0 ; text=1; defns[0] = 0
+gawk 'BEGIN              { code=0 ; quoting=0 ; text=1; defns[0] = 0
                                                         ulist[0] = 0 }
       /^@begin code/     { code=1 ; printf "\\nwbegincode{%s}", substr($0, 13) }
       /^@end code/       { code=0 ; printf "\\nwendcode{}"; lastdefnlabel = "" }

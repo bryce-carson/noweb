@@ -3,7 +3,7 @@
 # noroff -- run troff using tags file trick
 
 ROFF="groff"
-AWK=nawk
+AWK=gawk
 macrodir=|LIBDIR|
 LIB=|LIBDIR|
 

@@ -25,7 +25,7 @@ for source do
     texname=`echo "$source" | sed '/\./s/\.[^.]*$//'`
     texname="$texname.tex"
     PATH="$PATH:$LIB" $markup "$source" | $LIB/finduses -noquote | $LIB/noidx -delay | 
-    nawk '{print}
+    gawk '{print}
     /^@defn [^ ]*$/ { print "@literal \\let\\nwnotused=\\nwoutput{}" }' |
     $LIB/totex -delay | cpif $texname || status=1
   fi

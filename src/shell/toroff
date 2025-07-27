@@ -1,6 +1,6 @@
 #!/bin/sh
 LIB=|LIBDIR|
-AWK=nawk
+AWK=gawk
 delay=0 noindex=0
 for i do
     case $i in

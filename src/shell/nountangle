@@ -32,7 +32,7 @@ while [ $# -gt 0 ]; do
 done
 
 PATH="$PATH:$LIB" eval "$markup $arg $filters" |
-nawk 'BEGIN { line = 0; capture = 0; format=sprintf("'"$format"'",'"$width"') }
+gawk 'BEGIN { line = 0; capture = 0; format=sprintf("'"$format"'",'"$width"') }
 
 function comment(s) {
     '"$subst"'

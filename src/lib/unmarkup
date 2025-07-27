@@ -3,7 +3,7 @@
 # Copyright 1991 by Norman Ramsey.  All rights reserved.
 # See file COPYRIGHT for more information.
 
-nawk '
+gawk '
 BEGIN {
   rcsid = "$Id: unmarkup,v 1.20 2008/10/06 01:03:05 nr Exp $"
   rcsname = "$Name:  $"

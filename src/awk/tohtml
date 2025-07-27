@@ -13,7 +13,7 @@ for i do
     -no-gen-comment) nocomment=1 ;;
   esac
 done
-nawk 'function writechunk(label, ref, tag, name, suffix) {
+gawk 'function writechunk(label, ref, tag, name, suffix) {
         printf "%s", 
           linklabelto(label, ref, sgmlwrap(tag, "&lt;" convquotes(name) "&gt;" suffix))
       }

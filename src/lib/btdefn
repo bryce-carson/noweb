@@ -2,7 +2,7 @@
 
 # turn backticks into definitions
 
-nawk '
+gawk '
 /^@begin code / { code = 1 }
 /^@end code / { code = 0 }
 code && /^@text .*".*`.*"/ { print; next }
