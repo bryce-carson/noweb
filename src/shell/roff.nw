@@ -74,7 +74,7 @@ for i do
            exit 1;;
     esac
 done
-@ %def delay noindex
+@
 .P
 Invoking the awk program is hard, because the program uses both
 single quotes and double quotes, so neither can be used to protect the
@@ -87,7 +87,7 @@ cat > $awkfile << 'EOF'
 <<awk program>>
 EOF
 $AWK -f $awkfile -v delay=$delay noindex=$noindex
-@ %def awkfile tagsfile
+@
 .HU "The main program"
 The overall structure of the awk program is simple.  The [[tags]]
 file is processed in the [[BEGIN]] action, and the noweb source is
@@ -131,7 +131,7 @@ the top-of-page macros of [[-mm]] or [[-ms]].
 <<read and process noweb source>>=
 /^@xref label/ { lastxreflabel = $3 }
 /^@xref ref/ { lastxrefref = tag(substr($0, 11)) }
-@ %def lastxreflabel lastxrefref
+@
 <<tmac.w>>=
 .de RESETLETTER                     \" reset letter at top of page
 .nr SECTIONLETTER 0 1               \" count code sections on same page
@@ -155,7 +155,7 @@ code chunk was started, which is stored in the variable [[lastdefnlabel]].
 /^@end docs/ { printf ".ENDDOCCHUNK\n" }
 /^@begin code/ { code = 1; printf ".BEGINCODECHUNK\n" }
 /^@end code/ { code = 0; printf ".ENDCODECHUNK %s\n", lastdefnlabel }
-@ %def code
+@
 .P
 The macros related to document chunks are simple:  [[.BEGINDOCCHUNK]] does
 nothing, and [[.ENDDOCCHUNK]] merely flushes any unprinted output.
@@ -273,7 +273,7 @@ null character.
                         if (text++) printf "\\&"
                         printf "%s", substr($0, 7) }
 /^@nl/ && code != 1 { text = 0; printf "\n" }
-@ %def text
+@
 .P
 In code chunks, backslashes are replaced with troff's [[\e]] escape
 sequence and a non-printing null character is added at the beginning of
@@ -355,7 +355,7 @@ definition of the code chunk.
 /^@use/ { name = convquote(substr($0, 6))
           printf "\\c\n"
           printf ".USE \"%s\" %s\n", name, lastxrefref }
-@ %def name defn lastdefnlabel
+@
 @ The original version of toroff used [[\(oG]] and [[\(cG]] for
 the double angle bracket characters.  These appear to be non-standard,
 thus we define our own strings to take their place. (A.R.)
@@ -414,7 +414,7 @@ function convquote(s,	out, front, mid, tail) {
 #	print str3
 #	print convquote(str3)
 # }
-@ %def convquote
+@
 <<tmac.w>>=
 .ds BEGINCONVQUOTE \f[CW]
 .ds ENDCONVQUOTE   \fP
@@ -473,7 +473,7 @@ Finally, here is the code to report uses of identifiers.
     printf ".ADDLIST \"\\*[BEGINCONVQUOTE]%s\\*[ENDCONVQUOTE] %s\"\n",
             $3, lastuse }
 /^@index enduses/   && !noindex { printf ".PRINTLIST\n" }
-@ %def lastuse
+@
 <<tmac.w>>=
 .de INDEXUSE
 Uses
@@ -581,7 +581,7 @@ file via command-line redirection.  The code below uses an awk idiom; the
         printf ".IITEM \"%s\" \"%s\"\n", name, entryuse }
     else if (sub(/^###ENDINDEX###/   , "")) printf ".ILISTEND\n..\n" 
 }
-@ %def tags chunkuse chunkdefn entryuse entrydefn entryarray
+@
 .P
 The [[sub]] within the [[ENTRYEND]] causes definitions of identifiers
 to be italicized, according to the following defined strings.
@@ -593,7 +593,7 @@ Lookup of the section number corresponding to a particular tag is
 performed by the [[tag]] function.
 <<functions>>=
 function tag(s) { if (s in tags) return tags[s]; else return "???" }
-@ %def tag
+@
 @ .P
 To use the tags, we have to read the tags file from the back end.
 The tags file name is the basename of the file, with the suffix
@@ -675,7 +675,7 @@ if [ -r "$tagsfile" ]; then
  cat "$@") |
 ($ROFF $opts 2>$tagsfile)
 sed '/^###[A-Z][A-Z]*###/d' $tagsfile >&2
-@ %def macrodir
+@
 @ .HU "Macros for indexing chunks and identifiers"
 Toroff creates macros [[.CLIST]] and [[.ILIST]] which insert the
 lists of chunks and identifiers, respectively, in the output.  These

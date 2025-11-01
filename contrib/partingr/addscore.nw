@@ -18,7 +18,7 @@ some of the code is in subroutine files. We [[require]] these.
 <<setup>>=
 require "custom" || die "can't open custom routines library";
 require "archsubs" || die "can't open subroutines library";
-@ %def &readrounds &init
+@
 
 Early versions of this script allowed you to abort an entry by not
 typing anything at a prompt. However this became cumbersome when only
@@ -27,7 +27,7 @@ and point it to the same abort routine.
 
 <<setup>>=
 $SIG{'INT'}='abort';
-@ %def $SIG
+@
 
 We need know what date it is today (for the default database and
 date) so we get this from the operating system via the [[gmtime()]]
@@ -36,7 +36,7 @@ call.
 <<setup>>=
 $start=time;
 ($ts,$tmi,$th,$tmd,$tmo,$ty,@junk)=gmtime($start);
-@ %def $start $ts $tmi $th $tmd $tmo $ty @junk | $start gmtime()
+@
 
 Now we read in the rounds database, and open the relevant dbm file for
 the archery database. [[&init]] handles the command line options that
@@ -45,7 +45,7 @@ relate to the person and year that are asked for.
 <<setup>>=
 &readrounds;
 do &init;
-@ %def | &readrounds &init
+@
 \section{The main body of the program}
 The main part of the program justs loops asking the user for
 a score to be entered and then prompting for another loop.
@@ -92,13 +92,13 @@ dbmclose(scores);
       }
       else { print "invalid date\n"; }
   }    
-@ %def dateloop: $date $dt_ntrd $dindex $usecs $xts $xtmi $xth $xtmd $xtmo $xty @junk | STDIN &retime() gmtime()
+@
 \subsection{Entering the round}
 <<round...>>=
   $round=&getround;
   ($rtype,@rdists)=split(/,/,@rounds{$round});
   $mult=($rtype='y'?9:10);
-@ %def $round @rdists $mult | $rtype @rounds{} &getround
+@
 \subsection{Entering the score}
 <<score...>>=
   until(defined($sc_ntrd))
@@ -119,7 +119,7 @@ dbmclose(scores);
           }
       }
   }
-@ %def $sclist @rscores $ms $sc_ntrd | STDIN $mult @rdists $undefined
+@
 \subsection{Storing the data}
 The dbm entries are created in a fairly naive fashion at the moment.
 The round name and scores are turned into a CSV string. Future versions
@@ -129,7 +129,7 @@ of information that is stored.
 <<create...>>=
   $entry=join(',',$round,@rscores);
   @scores{$dindex}=$entry;
-@ %def $entry @scores | $round @rscores $dindex
+@
 \subsection{Prompt the user}
 Now we prompt the user to see if they want to enter another score.
 The default answer (ie just pressing [[RETURN]]) is yes on the
@@ -142,7 +142,7 @@ database is up to date.
   $loopagain=&yesno("Another score",'y');
   last unless $loopagain;
   undef $sc_ntrd;
-@ %def $loopagain | &yesno() $sc_ntrd
+@
 \section{Subroutines}
 \subsection{[[retime]]}
 This subroutine is supposed to convert a date in dd-mm-yyyy form into
@@ -160,7 +160,7 @@ sub retime
   $yd=int(365.25*($y-1970)+$md+$d)+60;	# actual day number
   86400*$yd;
 }
-@ %def $d $m $y $wm $md $yd
+@
 \section{Things to do}
 \itemize
 \item

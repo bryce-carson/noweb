@@ -120,13 +120,13 @@ message to be printed.
   /* status code for improper syntax */
 #define cannot_open_file 2
   /* status code for file access error */
-@ %def OK usage_error cannot_open_file
+@
 <<Global variables>>=
 int status = OK;
   /* exit status of command, initially OK */
 char *prog_name;
   /* who we are */
-@ %def status prog_name
+@
 
 Now we come to the general layout of the [[main]]
 function.
@@ -144,7 +144,7 @@ main(argc, argv)
   <<Print the grand totals if there were multiple files>>
   exit(status);
 }
-@ %def main argc argv
+@
 
 If the first argument begins with a `[[-]]', the
 user is choosing the desired counts and specifying 
@@ -162,7 +162,7 @@ int file_count;
   /* how many files there are */
 char *which;
   /* which counts to print */
-@ %def file_count which
+@
 <<Set up option selection>>=
 which = "lwc";
   /* if no option is given, print 3 values */
@@ -198,11 +198,11 @@ as the default initial value.
 <<Variables local to [[main]]>>=
 int fd = 0;
   /* file descriptor, initialized to stdin */
-@ %def fd
+@
 <<Definitions>>=
 #define READ_ONLY 0
   /* read access code for system open */
-@ %def READ_ONLY
+@
 <<If a file is given, try to open [[*(++argv)]]; [[continue]] if unsuccessful>>=
 if (file_count > 0
 && (fd = open(*(++argv), READ_ONLY)) < 0) {
@@ -223,7 +223,7 @@ To do this we set up appropriate pointers and counters.
 <<Definitions>>=
 #define buf_size BUFSIZ
   /* stdio.h BUFSIZ chosen for efficiency */
-@ %def buf_size
+@
 <<Variables local to [[main]]>>=
 char buffer[buf_size];
   /* we read the input into this array */
@@ -237,7 +237,7 @@ int in_word;
   /* are we within a word? */
 long word_count, line_count, char_count;
   /* # of words, lines, and chars so far */
-@ %def buffer ptr buf_end in_word word_count line_count char_count
+@
 <<Initialize pointers and counters>>=
 ptr = buf_end = buffer;
 line_count = word_count = char_count = 0;
@@ -326,7 +326,7 @@ Counts are printed in 8-digit fields so that they will line up in
 columns.
 <<Definitions>>=
 #define print_count(n) printf("%8ld", n)
-@ %def print_count
+@
 <<Functions>>=
 wc_print(which, char_count, word_count, line_count)
   char *which;  /* which counts to print */
@@ -350,7 +350,7 @@ wc_print(which, char_count, word_count, line_count)
         }
     }
 }
-@ %def wc_print
+@
 
 Incidentally, a test of this program against the system <tt>wc</tt>
 command on a SPARCstation showed that the ``official'' <tt>wc</tt> was

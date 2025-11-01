@@ -45,7 +45,7 @@ so that small documentation chunks will appear on the some page as the code
 chunks they precede.
 <<initialization>>=
 text := 1
-@ %def text
+@
 
 Ordering helps improve speed, so I write things in a funny order.
 This whole code is a giant [[if ... then ... else if ...]].

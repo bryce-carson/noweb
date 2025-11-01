@@ -287,7 +287,7 @@ function indexlabel(ident, l) {
   gsub(/~/,  ":ti",  l)      # tilde
   return l
 }
-@ %def indexlabel
+@
 @
 Because latex2e uses [[`]] as an active character, I have to use 
 decimal character codes for the specials.
@@ -308,5 +308,5 @@ function TeXliteral(arg) {
   gsub(/ /,  "\\ ",         arg)
   return arg
 }
-@ %def TeXliteral
+@
 

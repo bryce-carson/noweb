@@ -45,7 +45,7 @@ We'll need at least three of the standard system include files.
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-@ %def FILE stderr exit fprintf fputs fopen fclose getc putc strlen toupper isupper islower isgraph isspace tempnam remove malloc size_t
+@
 @
 \newpage
 \noindent
@@ -858,7 +858,7 @@ static int compare(x, y)
   }
   else return EQUAL;
 }
-@ %def compare LESS GREATER EQUAL PREFIX EXTENSION
+@
 <<names.c*>>=
 char *save_string(s)
      char *s;
@@ -867,7 +867,7 @@ char *save_string(s)
   strcpy(new, s);
   return new;
 }
-@ %def save_string
+@
 <<names.c*>>=
 static int ambiguous_prefix();
 
@@ -892,7 +892,7 @@ Name *prefix_add(root, spelling)
   }
   <<Create new name entry>>
 }
-@ %def prefix_add
+@
 @
 Since a very short prefix might match more than one macro name, I need
 to check for other matches to avoid mistakes. Basically, I simply
@@ -924,7 +924,7 @@ static int ambiguous_prefix(node, spelling)
   }
   return FALSE;
 }
-@ %def ambiguous_prefix
+@
 <<names.c*>>=
 Name *name_add(root, spelling)
      Name **root;
@@ -943,7 +943,7 @@ Name *name_add(root, spelling)
   }
   <<Create new name entry>>
 }
-@ %def name_add
+@
 <<Create new name entry>>=
 {
   node = (Name *) arena_getmem(sizeof(Name));
@@ -989,7 +989,7 @@ Name *collect_file_name()
   }
   return new_name;
 }
-@ %def collect_file_name
+@
 <<Handle optional per-file flags>>=
 {
   while (1) {
@@ -1047,7 +1047,7 @@ Name *collect_macro_name()
   exit(-1);
   return NULL;  /* unreachable return to avoid warnings on some compilers */
 }
-@ %def collect_macro_name
+@
 <<Check for terminating at-sequence and return name>>=
 {
   c = source_get();
@@ -1125,7 +1125,7 @@ Name *collect_scrap_name()
   exit(-1);
   return NULL;  /* unreachable return to avoid warnings on some compilers */
 }
-@ %def collect_scrap_name
+@
 <<Look for end of scrap name and return>>=
 {
   c = source_get();
@@ -1160,7 +1160,7 @@ typedef struct chunk {
   char *limit;
   char *avail;
 } Chunk;
-@ %def Chunk
+@
 @
 We define an empty chunk called [[first]]. The variable [[arena]] points
 at the current chunk of memory; it's initially pointed at [[first]].
@@ -1170,7 +1170,7 @@ allocated from the new chunk (and later chunks if necessary).
 <<arena.c*>>=
 static Chunk first = { NULL, NULL, NULL };
 static Chunk *arena = &first;
-@ %def first arena
+@
 @
 \subsection{Allocating Memory}
 
@@ -1194,7 +1194,7 @@ void *arena_getmem(n)
   }
   <<Find a new chunk of memory>>
 }
-@ %def arena_getmem
+@
 @
 If the current chunk doesn't have adequate space (at least [[n]]
 bytes) we examine the rest of the list of chunks (starting at 
@@ -1241,7 +1241,7 @@ void arena_free()
 {
   arena = &first;
 }
-@ %def arena_free
+@
 @
 \chapter{Indices} \label{indices}
 

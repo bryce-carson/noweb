@@ -125,7 +125,7 @@ every p := !args do {
 	delta[p[1]] := +1
 	delta[p[2]] := -1
 }
-@ %def pair delta braces
+@
 @
 \section{Relevant Markup}
 Our \emph{raison d'\^etre} is to match braces in code chunks.
@@ -160,7 +160,7 @@ if ="@end code " then {
 All webs start with a text chunk, not code.
 <<Initialization>>=
 code := &null
-@ %def code 
+@
 @
 The variables [[curr_chunkname]], [[curr_filename]], and [[curr_line]]
 help keep track of where mismatches are found.
@@ -170,7 +170,7 @@ We initialize them to ``safe'' values, just in case.
 curr_line := 1
 curr_filename := "Standard Input"
 curr_chunkname := "***Unknown Chunk***"
-@ %def curr_filename curr_line curr_chunkname
+@
 @
 Newlines simply increase the [[curr_line]] count.
 <<Process relevant markup lines>>=
@@ -241,7 +241,7 @@ The brace stacks are initially empty, as is the error list.
 bstack := table([])
 error_list := []
 error_line := table("")
-@ %def bstack error_list error_line
+@
 @
 If either the error list or any of the brace stacks are not empty, we
 have mismatched braces

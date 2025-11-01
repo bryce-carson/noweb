@@ -39,21 +39,21 @@ END {
   }
   if (!delay) <<write trailers>>
 }
-@ %def lines nextline
+@
 <<initialization>>=
 curfile = "standard input?"
 lastchunkbegin = "never any chunks?" ;
 <<initialization>>=
 allchunks[0] = 0 ; allidents[0] = 0 ; indexlabels[0] = 0 
 defanchors[0] = 0 ; uses[0] = 0 ; anchorlabel[0] = 0 ; indexanchorlabel[0] = 0
-@ %def  allchunks allidents indexlabels defanchors uses anchorlabel indexancho
+@
 label
 <<first pass>>=
 /^@file /     { curfile = uniqueid(substr($0, 7)) }
 /^@begin /    { lastchunkbegin = $0 }
 /^@end docs / { if (anchordist > 0) <<insert and set [[lastanchorlabel]]>> }
 /^@end code / { lastanchorlabel = "" }
-@ %def curfile lastchunkbegin lastanchorlabel
+@
 <<first pass>>=
 /^@defn /     { arg = substr($0, 7)
                 allchunks[arg] = 1
@@ -73,7 +73,7 @@ label
                   addud(chunkud, "use", arg, lastanchorlabel)
                 }
               }
-@ %def allchunks lastdefnlabel
+@
 <<first pass>>=
 /^@index use /  { arg = substr($0, 12)
                   allidents[arg] = 1
@@ -97,7 +97,7 @@ if (lastanchorlabel != "") {
 addud(indexud, "defn", arg, l)
 if (indexanchorlabel[arg] == "") indexanchorlabel[arg] = l
 slipin("@xref ref "  l) # bug fix
-@ %def allidents indexanchorlabel
+@
 The bug fix\label{multi-def-bug}
 alluded to above occurs when there are multiple definitions of an identifier.
 In this case, we can't just use [[indexanchorlabel[id]]], because that refers 
@@ -187,7 +187,7 @@ l[arg])
 } else {
     print line
 }
-@ %def thesedefns theseuses
+@
 The case of the [[@index defn]] is the one case where we don't emit a
 reference, because the reference has to go in earlier.  See
 page~\pageref{multi-def-bug} for an explanation.
@@ -255,7 +255,7 @@ function newdefnlabel(arg, label) {
   label = "NW" curfile "-" uniqueid(arg) "-" alphacode(defcount[arg])
   return label
 }
-@ %def newdefnlabel
+@
 <<initialization>>=
 defcount[0] = 0 ;
 <<functions>>=
@@ -263,7 +263,7 @@ function newdocslabel() {
   newdocslabelcount++
   return "NWD" alphacode(newdocslabelcount)
 }
-@ %def newdocslabel
+@
 <<functions>>=
 function addlabel(tbl, arg, label, marker) {
   marker = " " label
@@ -271,7 +271,7 @@ function addlabel(tbl, arg, label, marker) {
     tbl[arg] = tbl[arg] marker
   return label
 }
-@ %def addlabel
+@
 <<functions>>=
 function tailmatch(string, tail, pos) {
   pos = length(string) - length(tail) + 1
@@ -280,20 +280,20 @@ function tailmatch(string, tail, pos) {
   else
     return 0
 }
-@ %def tailmatch
+@
 <<functions>>=      
 function addud(udlist, name, arg, label, s) {
   s = " " name "{" label "}"
   if (!tailmatch(udlist[arg], s))
     udlist[arg] = udlist[arg] s
 }
-@ %def addud
+@
 <<functions>>=
 function listget(l, i, n, a) {
   n = split(l, a)
   return a[i]
 }
-@ %def listget
+@
 <<initialization>>=
 udlist[0] = 0 ;
 @
@@ -314,7 +314,7 @@ function uniqueid(name, key) {
   }
   return uidtable[name]
 }
-@ %def uniqueid
+@
 <<functions>>=
 function make_key(name,   key, l) {
    l = length(name)
@@ -355,7 +355,7 @@ function lognowebchunks(l, j, n, x) {
   }
   print "@xref endchunks"
 }
-@ %def lognowebchunks
+@
 <<functions>>=
 function lognowebindex(l, j, n, x) {
   if (loggednowebindex > 0) return
@@ -378,7 +378,7 @@ ame
   }
   print "@index endindex"
 }
-@ %def lognowebindex
+@
 <<functions>>=
 function alphasort(a, x, n) {
   n = 0
@@ -398,7 +398,7 @@ function insertitem(x, n, i, tmp) {
   }
   return n + 1
 }
-@ %def alphasort insertitem
+@
 <<initialization>>=
 sorted[0] = 0; sortkeys[0] = 0;
 <<functions>>=
@@ -407,7 +407,7 @@ function sortkey(name, s) {
   gsub(/[^a-zA-Z ]/, "", s)
   return s
 }
-@ %def sortkey
+@
 <<functions>>=
 function alphacode(n) {
   if (n < 0) 
@@ -417,7 +417,7 @@ function alphacode(n) {
   else
     return substr(alphacodes, n+1, 1)
 }
-@ %def alphacode
+@
 <<initialization>>=
 alphacodes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 alphacodelen = length(alphacodes) ;

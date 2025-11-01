@@ -24,7 +24,7 @@ LIB=/usr/local/noweb/lib
 MAN=/usr/local/noweb/man
 MANEXT=1
 MAN7EXT=7
-TEXINPUTS=/usr/local/tex/inputs
+TEXINPUTS=/usr/share/texlive/texmf-local/tex/latex/noweb
 ELISP=/dev/null
 
 # change WEAVE if you want a different version of noweave to be installed
