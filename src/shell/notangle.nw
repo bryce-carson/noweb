@@ -1,19 +1,91 @@
-<<copyright notice>>=
-# Copyright 1991 by Norman Ramsey.  All rights reserved.
-# See file COPYRIGHT for more information.
+Notangle is a shell script that extracts root nodes from literate program webs
+in the noweb-syntax. A root node is any code module named on the command line
+for extraction (or, by default, the code module with the name [[*]]), so-called
+``root'' because it will be the root of a tree of code modules and references to
+code modules. The root node for this web---[[notangle.nw]]---is the code module
+[[notangle]]; only code modules can be root nodes. Documentation modules
+(``docs'' internally) are always concatenated from beginning to end (the top of
+the file to the bottom of the file), as that is the direction of human language
+(unless heptapods give us ``weapon'', like in \textit{Arrival} [2016]).
+
+The script [[notangle]] is not complex, having only one conceptual part. In a
+language like Java it would be called a command-processor, or generator, and
+whatever is generated is immediately evaluated and the return code of that
+evaluation is the return code of [[notangle]].
+
 <<notangle>>=
 #!/bin/sh
 <<copyright notice>>
-LIB=|LIBDIR|
+<<process command-line arguments>>
+<<evaluate the shell command string and exit>>
+@
+
+More or less so, let's think of the command string as
+[[markup notangle.nw | nt -Rnotangle]].
+The command string is minimally what was just quoted: the lesser
+in ``more or less''. When more involved, further options are provided to
+[[markup]] or [[nt]], and optional filters modify the input of [[nt]]. As a
+wrapping of [[nt]], the shell script [[notangle]] must process its own arguments
+before handling the delivery of user-supplied arguments to its wrapped programs.
+
+<<process command-line arguments>>=
+<<Noweb's library directory>>
 markup=$LIB/markup opt= arg= markopt= filters=
 while [ $# -gt 0 ]; do
-	case $1 in
-        -gitversion) echo "|GITVERSION|" ; exit ;;
-        -ml|-m3|-awk|-icn|-icon|-pascal|-c|-c++|-f77|-f90|-tex|-w[0-9][0-9]*) ;; 
-					# deliberately ignore nountangle args
-	-t)  ;; # this is default
-        -t*) markopt="$markopt -t" ; opt="$opt '$1'" ;;
-		# copy tabs at markup, use width given in notangle
+    <<process notangle arguments>>
+done
+@
+
+<<Noweb's library directory>>=
+LIB=|LIBDIR|
+@ 
+
+The string [[|LIBDIR|]] is substituted by Make with the user-configured location
+of [[@<<Noweb's library directory>>]].
+
+With the library directory defined, the path to the markup binary is set in the
+[[markup]] variable and the variables [[opt]], [[arg]], [[markopt]] (options for
+the binary [[markup]]), and [[filters]] are predeclared and nulled. [[filters]]
+is a pipeline of filters, so every instance of [[-filter FILTER_PROGRAM]] is
+concatenated to the growing pipeline of filters interceding between [[markup]]
+and the C implementation of the ``meat'' of [[notangle]]. This non-meaty shell
+script called [[notangle]] exists to [[@<<process command line arguments>>]] and
+[[@<<the shell command string for evaluation>>]].
+
+Shell argument processing occurs in a [[while]] loop, and when argument pairs
+are concerned the additional [[shift]] keyword is part of the case handling that
+argument pair.
+
+Only [[-gitversion]] prevents further execution and causes the script to
+[[exit]] early. All other arguments define interesting behaviour.
+
+The following arguments are ignored, because they're supposed to be given to
+[[nountangle]], not [[notangle]].
+
+\begin{list}{arguments}{}
+\item [[ml]]
+\item [[m3]]
+\item [[awk]]
+\item [[icn]]
+\item [[icon]]
+\item [[pascal]]
+\item [[c]]
+\item [[c++]]
+\item [[f77]]
+\item [[f90]]
+\item [[tex]]
+\item [[w00*]] through [[w99*]]
+\end{list}
+
+<<ignored arguments>>=
+-ml|-m3|-awk|-icn|-icon|-pascal|-c|-c++|-f77|-f90|-tex|-w[0-9][0-9]*) ;; # deliberately ignore nountangle args
+@ 
+
+<<process notangle arguments>>=
+  case $1 in
+  -gitversion) echo "|GITVERSION|" ; exit ;;
+  <<ignored arguments>>
+  <<tab width handling>>
 	-filter) filters="$filters $2 | " ; shift ;;
 	-markup) markup="$2" ; shift ;;
 	-)   arg="$arg '$1'" ;;
@@ -22,8 +94,56 @@ while [ $# -gt 0 ]; do
 	*)   arg="$arg '$1'" ;;
 	esac
 	shift
-done
-PATH="$PATH:$LIB" 
+@
+
+Tab width is a personal opinion, so the option to control how many spaces wide a
+tab is is given.
+
+<<tab width handling>>=
+-t)  ;; # this is default
+-t*) markopt="$markopt -t" ; opt="$opt '$1'" ;; # copy tabs at markup, use width given in notangle
+@ 
+
+% TODO: this needs better introduction.
+
+<<the shell command string>>=
+$markup $markopt $arg | $filters $LIB/nt $opt 
+@ 
+
+This command string could expand to something like the following. This script
+constructs the pipeline consisting of [[markup]] and [[nt]], and whatever
+options and filters the user would like to modify these program's operation and
+change the input received by the latter program.
+
+\begin{verbatim}
+/usr/local/noweb/lib/markup ~/src/noweb/src/shell/notangle.nw | /usr/local/noweb/lib/nt "-Rthe command string"
+\end{verbatim}
+
+Before the processed arguments can be evaluated the [[PATH]] must be exported so
+subprocesses inherit it, so the [[@<<the shell command string for evaluation>>]]
+module must begin with that assurance. The shell command string is evaluated and
+its return code is given as the return code of the shell script [[notangle]].
+That's the end of this script.
+
+<<evaluate the shell command string and exit>>=
+PATH="$PATH:$LIB"
 export PATH
-eval "$markup $markopt $arg | $filters $LIB/nt $opt "'; rc=$?'
+eval "<<the shell command string>>"'; rc=$?'
 exit $rc
+@
+
+The original file has the following copyright notice. The current file is a
+modification by Bryce Carson in 2025.
+
+<<copyright notice>>=
+# Copyright 1991 by Norman Ramsey.  All rights reserved.
+# Copyright 2025 by Bryce Carson.
+# See file COPYRIGHT for more information.
+@
+
+
+% Local Variables:
+% polymode-host-mode: latex-mode
+% polymode-default-inner-mode: shell-script-smode
+% noweb-code-mode: shell-script-mode
+% End:
