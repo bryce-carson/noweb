@@ -35,9 +35,9 @@ boot:
 	touch $(SRCS)
 
 install: $(EXECS)
-	cp $(LIBEXECS) $(LIB)
-	cp $(BINEXECS) $(BIN)
-	cp $(LIBSPECIAL) $(LIB)/autodefs.c
+	cp $(LIBEXECS) $(DESTDIR)$(LIB)
+	cp $(BINEXECS) $(DESTDIR)$(BIN)
+	cp $(LIBSPECIAL) $(DESTDIR)$(LIB)/autodefs.c
 
 uninstall:
 	for i in $(LIBEXECS); do rm -f $(LIB)/$$i; done

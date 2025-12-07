@@ -61,14 +61,14 @@ uninstall: uninstall-code uninstall-man uninstall-tex uninstall-elisp
 	rmdir $(BIN) $(LIB) 2>/dev/null || true
 
 install-shell:
-	mkdir -p $(BIN) $(LIB)
+	mkdir -p $(DESTDIR)$(BIN) $(DESTDIR)$(LIB)
 	for i in noweb notangle $(WEAVE) nountangle nodefs noroots nuweb2noweb cpif htmltoc noroff; do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|GITVERSION|@$(GITVERSION)@" shell/$$i > $(BIN)/$$i && chmod +x $(BIN)/$$i; \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|GITVERSION|@$(GITVERSION)@" shell/$$i > $(DESTDIR)$(BIN)/$$i && chmod +x $(DESTDIR)$(BIN)/$$i; \
 	done
 	for i in toroff; do \
 	  sed "s@|LIBDIR|@$(LIB)@" shell/$$i > $(LIB)/$$i && chmod +x $(LIB)/$$i; \
 	done
-	cp shell/tmac.w $(LIB)
+	cp shell/tmac.w $(DESTDIR)$(LIB)
 
 uninstall-shell:
 	for i in noweb notangle $(WEAVE) nountangle nodefs noroots nuweb2noweb cpif htmltoc noroff; do \
@@ -79,10 +79,10 @@ uninstall-shell:
 	done
 
 install-code: install-shell
-	mkdir -p $(BIN) $(LIB)
+	mkdir -p $(DESTDIR)$(BIN) $(DESTDIR)$(LIB)
 	for i in nt markup mnt finduses nwmktemp; do \
 	  strip c/$$i; \
-	  cp c/$$i $(LIB); \
+	  cp c/$$i $(DESTDIR)$(LIB); \
 	done
 	(cd $(LIBSRC) && $(MAKE) "ICONT=$(ICONT)" "ICONC=$(ICONC)" LIB=$(LIB) BIN=$(BIN) install)
 	(cd lib && $(MAKE) LIB=$(LIB) install)
@@ -98,16 +98,16 @@ uninstall-code: uninstall-shell
 # Icon version of htmltoc, if present, will overwrite the Perl version.
 
 install-man:
-	mkdir -p $(MANDIR) $(MAN7DIR)
+	mkdir -p $(DESTDIR)$(MANDIR) $(DESTDIR)$(MAN7DIR)
 	for i in $(NORMALPAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.1 > $(MANDIR)/$$i.$(MANEXT); \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.1 > $(DESTDIR)$(MANDIR)/$$i.$(MANEXT); \
 	done
 	for i in $(NORMAL7PAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.7 > $(MAN7DIR)/$$i.$(MAN7EXT); \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.7 > $(DESTDIR)$(MAN7DIR)/$$i.$(MAN7EXT); \
 	done
 	for i in $(LINKPAGES); do \
-	  rm -f $(MANDIR)/$$i.$(MANEXT); \
-	  (cd $(MANDIR) && ln notangle.$(MANEXT) $$i.$(MANEXT)); \
+	  rm -f $(DESTDIR)$(MANDIR)/$$i.$(MANEXT); \
+	  (cd $(DESTDIR)$(MANDIR) && ln notangle.$(MANEXT) $$i.$(MANEXT)); \
 	done
 uninstall-man:
 	for i in $(NORMALPAGES) $(LINKPAGES); do \
@@ -121,12 +121,12 @@ uninstall-man:
 # Slackware no longer uses preformatted compressed pages, just
 # compressed pages.
 install-gzipped-man:
-	mkdir -p $(MANDIR) $(MAN7DIR)
+	mkdir -p $(DESTDIR)$(MANDIR) $(MAN7DIR)
 	for i in $(NORMALPAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.1 | gzip -9 > $(MANDIR)/$$i.$(MANEXT).gz; \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.1 | gzip -9 > $(DESTDIR)$(MANDIR)/$$i.$(MANEXT).gz; \
 	done
 	for i in $(NORMAL7PAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.7 | gzip -9 > $(MAN7DIR)/$$i.$(MAN7EXT).gz; \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.7 | gzip -9 > $(DESTDIR)$(MAN7DIR)/$$i.$(MAN7EXT).gz; \
 	done
 	for i in $(LINKPAGES); do \
 	  rm -f $(MANDIR)/$$i.$(MANEXT).gz; \
@@ -135,22 +135,22 @@ install-gzipped-man:
 
 install-preformat-man:
 	-echo "Warning: install-preformat-man is obsolete, even on Slackware systems" 1>&2
-	mkdir -p $(CATDIR) $(CAT7DIR)
+	mkdir -p $(DESTDIR)$(CATDIR) $(DESTDIR)$(CAT7DIR)
 	for i in $(NORMALPAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.txt | gzip > $(CATDIR)/$$i.$(MANEXT).gz; \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.txt | gzip > $(DESTDIR)$(CATDIR)/$$i.$(MANEXT).gz; \
 	done
 	for i in $(NORMAL7PAGES); do \
-	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.txt | gzip > $(CAT7DIR)/$$i.$(MAN7EXT).gz; \
+	  sed "s@|LIBDIR|@$(LIB)@;s@|TEXINPUTS|@$(TEXINPUTS)@" xdoc/$$i.txt | gzip > $(DESTDIR)$(CAT7DIR)/$$i.$(MAN7EXT).gz; \
 	done
 	for i in $(LINKPAGES); do \
-	  rm -f $(CATDIR)/$$i.$(MANEXT).gz; \
-	  (cd $(CATDIR) && ln notangle.$(MANEXT).gz $$i.$(MANEXT).gz); \
+	  rm -f $(DESTDIR)$(CATDIR)/$$i.$(MANEXT).gz; \
+	  (cd $(DESTDIR)$(CATDIR) && ln notangle.$(MANEXT).gz $$i.$(MANEXT).gz); \
 	done
 
 install-tex:
-	mkdir -p $(TEXINPUTS)
+	mkdir -p $(DESTDIR)$(TEXINPUTS)
 	for i in nwmac.tex noweb.sty; do \
-	  sed "s@|GITVERSION|@$(GITVERSION)@" tex/$$i > $(TEXINPUTS)/$$i; \
+	  sed "s@|GITVERSION|@$(GITVERSION)@" tex/$$i > $(DESTDIR)$(TEXINPUTS)/$$i; \
 	done
 	-texhash || echo "Program texhash not found or failed"
 
@@ -160,8 +160,8 @@ uninstall-tex:
 	done
 
 install-elisp:
-	if [ "/dev/null" != "$(ELISP)" ]; then mkdir -p $(ELISP); fi
-	cp elisp/noweb-mode.el $(ELISP)
+	if [ "/dev/null" != "$(ELISP)" ]; then mkdir -p $(DESTDIR)$(ELISP); fi
+	cp elisp/noweb-mode.el $(DESTDIR)$(ELISP)
 
 uninstall-elisp:
 	rm -f $(ELISP)/noweb-mode.el

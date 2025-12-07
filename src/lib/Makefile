@@ -11,7 +11,7 @@ all: toascii
 	chmod +x unmarkup emptydefn nwmtime pipedocs h2a btdefn
 
 install: all
-	cp unmarkup emptydefn toascii nwmtime btdefn $(LIB)
+	cp unmarkup emptydefn toascii nwmtime btdefn $(DESTDIR)$(LIB)
 	for i in pipedocs h2a; do \
 	  sed "s@|LIBDIR|@$(LIB)@g" $$i > $(LIB)/$$i && chmod +x $(LIB)/$$i; \
 	done

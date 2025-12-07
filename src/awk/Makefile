@@ -19,11 +19,11 @@ boot:
 	touch $(EXECS)
 
 install: all
-	cp $(LIBEXECSBARE) $(LIB)
+	cp $(LIBEXECSBARE) $(DESTDIR)$(LIB)
 	for i in $(LIBEXECSDEP); do \
 	  sed "s@|LIBDIR|@$(LIB)@" $$i > $(LIB)/$$i && chmod +x $(LIB)/$$i; \
 	done
-	cp $(BINEXECS) $(BIN)
+	cp $(BINEXECS) $(DESTDIR)$(BIN)
 
 uninstall:
 	for i in $(LIBEXECS); do rm -f $(LIB)/$$i; done
