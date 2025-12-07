@@ -32,7 +32,7 @@ ELISP=/dev/null
 WEAVE=noweave
 
 # Stop editing.  No user-serviceable parts below.
-SHELL=$(PREFIX)/bin/sh
+SHELL=/bin/sh
 CINAME=
 CIMSG=
 MANDIR=$(PREFIX)/$(MAN)/man$(MANEXT)
