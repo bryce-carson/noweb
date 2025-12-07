@@ -152,7 +152,9 @@ install-tex:
 	for i in nwmac.tex noweb.sty; do \
 	  sed "s@|GITVERSION|@$(GITVERSION)@" tex/$$i > $(DESTDIR)$(TEXINPUTS)/$$i; \
 	done
-	-texhash || echo "Program texhash not found or failed"
+
+check-tex:
+	-texhash $(DESTDIR)$(TEXINPUTS) || echo "Program texhash not found or failed"
 
 uninstall-tex:
 	for i in nwmac.tex noweb.sty; do \
