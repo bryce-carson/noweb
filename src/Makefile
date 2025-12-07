@@ -19,25 +19,26 @@ GITVERSION=`./gitversion`
 # MAN7EXT is the extension for the nowebstyle man page (usually 7)
 # TEXINPUTS is the directory for TeX macro files
 # ELISP is the directory for emacs lisp files, or /dev/null not to install
-BIN=/usr/local/noweb
-LIB=/usr/local/noweb/lib
-MAN=/usr/local/noweb/man
+PREFIX=/usr/local
+BIN=$(PREFIX)/noweb
+LIB=$(PREFIX)/noweb/lib
+MAN=$(PREFIX)/noweb/man
 MANEXT=1
 MAN7EXT=7
-TEXINPUTS=/usr/share/texlive/texmf-local/tex/latex/noweb
+TEXINPUTS=$(PREFIX)/share/texlive/texmf-local/tex/latex/noweb
 ELISP=/dev/null
 
 # change WEAVE if you want a different version of noweave to be installed
 WEAVE=noweave
 
 # Stop editing.  No user-serviceable parts below.
-SHELL=/bin/sh
+SHELL=$(PREFIX)/bin/sh
 CINAME=
 CIMSG=
-MANDIR=$(MAN)/man$(MANEXT)
-MAN7DIR=$(MAN)/man$(MAN7EXT)
-CATDIR=$(MAN)/cat$(MANEXT)
-CAT7DIR=$(MAN)/cat$(MAN7EXT)
+MANDIR=$(PREFIX)/$(MAN)/man$(MANEXT)
+MAN7DIR=$(PREFIX)/$(MAN)/man$(MAN7EXT)
+CATDIR=$(PREFIX)/$(MAN)/cat$(MANEXT)
+CAT7DIR=$(PREFIX)/$(MAN)/cat$(MAN7EXT)
 NORMALPAGES=cpif nodefs noroots noweb noindex nuweb2noweb notangle noroff sl2h htmltoc
 NORMAL7PAGES=nowebstyle nowebfilters
 LINKPAGES=noweave nountangle

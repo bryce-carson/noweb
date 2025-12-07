@@ -8,6 +8,7 @@ VERSION=2.13
 SHELL=/bin/sh
 CINAME=-Nv`echo $(VERSION) | tr . _`
 CIMSG=-f -m'standard checkin preparing to export version $(VERSION)'
+PREFIX=/usr/local
 
 all:
 	@echo "You have no business running 'make' here; please look at the README file"
