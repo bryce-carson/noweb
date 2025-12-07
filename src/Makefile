@@ -66,7 +66,7 @@ install-shell:
 	  sed "s@|LIBDIR|@$(LIB)@;s@|GITVERSION|@$(GITVERSION)@" shell/$$i > $(DESTDIR)$(BIN)/$$i && chmod +x $(DESTDIR)$(BIN)/$$i; \
 	done
 	for i in toroff; do \
-	  sed "s@|LIBDIR|@$(LIB)@" shell/$$i > $(LIB)/$$i && chmod +x $(LIB)/$$i; \
+	  sed "s@|LIBDIR|@$(LIB)@" shell/$$i > $(DESTDIR)$(LIB)/$$i && chmod +x $(DESTDIR)$(LIB)/$$i; \
 	done
 	cp shell/tmac.w $(DESTDIR)$(LIB)
 
