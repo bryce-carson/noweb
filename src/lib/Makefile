@@ -13,7 +13,7 @@ all: toascii
 install: all
 	cp unmarkup emptydefn toascii nwmtime btdefn $(DESTDIR)$(LIB)
 	for i in pipedocs h2a; do \
-	  sed "s@|LIBDIR|@$(LIB)@g" $$i > $(LIB)/$$i && chmod +x $(LIB)/$$i; \
+	  sed "s@|LIBDIR|@$(LIB)@g" $$i > $(DESTDIR)$(LIB)/$$i && chmod +x $(DESTDIR)$(LIB)/$$i; \
 	done
 
 uninstall:
